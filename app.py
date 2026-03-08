@@ -1,24 +1,9 @@
 """
 ===============================================================================
-AETHERA by UNIFIED PARADOX – CORE IOT TRUST & DRIFT ANALYTICS
+AETHERA by UNIFIED PARADOX – ANIMATED TITLE RESTORED
 ===============================================================================
-Eclipse Hackathon 2026 – Complete Implementation of Problem Statement
-
-All 12 required components are implemented:
-1. Executive Summary           – (see top‑level docstring)
-2. Threat/Failure Model        – simulated attacks via compromised devices
-3. Technical Architecture      – full pipeline: telemetry → features → drift → trust → explainability → dashboard
-4. Telemetry Plan & Dataset    – real‑world IoT devices + attack simulation
-5. Trust Score Model           – weighted formula 0‑100 with history smoothing
-6. Policy Model & Drift Logic  – anomaly rate + KS‑test, severity thresholds
-7. AI/ML Component             – Isolation Forest (unsupervised)
-8. Baseline Protection         – gated learning, versioned snapshots, integrity hashing
-9. Explainability Output       – plain English with evidence (what, why, confidence, action)
-10. Evaluation Plan            – simulated metrics (shown in dashboard comments)
-11. Tools / Tech Stack         – Python, Streamlit, Pandas, NumPy, Plotly, Scikit‑learn, SciPy
-12. Expected Benefits          – demonstrated by the dashboard
-
-No extra fluff – clean, professional, and ready to win.
+Eclipse Hackathon 2026 – Complete IoT Trust & Drift Analytics
+All 12 problem‑statement components with a stunning, professional UI.
 ===============================================================================
 """
 
@@ -47,206 +32,527 @@ st.set_page_config(
 )
 
 # -----------------------------------------------------------------------------
-# 2. CUSTOM CSS – CLEAN, PROFESSIONAL DARK THEME
+# 2. CUSTOM CSS – PREMIUM THEME WITH ANIMATED TITLE
 # -----------------------------------------------------------------------------
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap');
 
 * {
-    font-family: 'Inter', sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
 .stApp {
-    background: radial-gradient(ellipse at 30% 40%, #0d0d1a, #03030a);
+    background: linear-gradient(145deg, #0c0c15, #04040a);
     background-attachment: fixed;
+    font-family: 'Inter', sans-serif;
+    color: #e0e0e0;
 }
 
-/* ----- TITLE ----- */
+/* ===== PREMIUM LOGIN ===== */
+.login-wrapper {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    background: radial-gradient(circle at 30% 30%, rgba(163, 112, 255, 0.15), transparent 50%),
+                linear-gradient(145deg, #0c0c15, #04040a);
+    animation: gradientShift 10s ease infinite;
+}
+@keyframes gradientShift {
+    0% { background-position: 0% 0%; }
+    50% { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
+}
+
+.login-card {
+    background: rgba(20, 20, 30, 0.8);
+    backdrop-filter: blur(20px);
+    border-radius: 32px;
+    padding: 3rem 2.5rem;
+    width: 100%;
+    max-width: 460px;
+    box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(163, 112, 255, 0.1) inset, 0 0 60px rgba(163, 112, 255, 0.3);
+    border: 1px solid rgba(163, 112, 255, 0.2);
+    text-align: center;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    animation: float 6s infinite alternate;
+}
+@keyframes float {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-10px); }
+}
+.login-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 40px 80px -20px rgba(163, 112, 255, 0.5), 0 0 0 1px rgba(163, 112, 255, 0.3) inset, 0 0 80px rgba(163, 112, 255, 0.5);
+}
+
+.login-title {
+    margin-bottom: 2rem;
+}
+.login-title .main-title {
+    font-size: 3rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #ffffff, #d9b3ff, #a370ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 30px rgba(163, 112, 255, 0.6));
+    letter-spacing: 2px;
+    line-height: 1.2;
+}
+.login-title .byline {
+    color: #b0b0d0;
+    font-size: 1rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(163, 112, 255, 0.3);
+    display: inline-block;
+    padding-bottom: 0.5rem;
+    margin-top: 0.5rem;
+}
+.login-title .byline span {
+    background: linear-gradient(135deg, #ffd966, #a370ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 600;
+}
+
+.login-card h2 {
+    color: white;
+    font-size: 2rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+.login-card .subtitle {
+    color: #a0a0c0;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+}
+.login-card .subtitle span {
+    color: #ffd966;
+    font-weight: 500;
+}
+.login-card input {
+    width: 100%;
+    padding: 1rem 1.2rem;
+    margin: 0.6rem 0;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(163, 112, 255, 0.3);
+    border-radius: 16px;
+    color: white;
+    font-size: 1rem;
+    transition: all 0.3s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+.login-card input:focus {
+    outline: none;
+    border-color: #a370ff;
+    box-shadow: 0 0 0 4px rgba(163, 112, 255, 0.1), 0 8px 20px rgba(163, 112, 255, 0.3);
+    background: rgba(0, 0, 0, 0.4);
+}
+.login-card .stButton > button {
+    width: 100%;
+    background: linear-gradient(145deg, #a370ff, #8a4fff);
+    color: white;
+    border: none;
+    border-radius: 16px;
+    padding: 1rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-top: 1.2rem;
+    transition: all 0.3s;
+    box-shadow: 0 8px 20px rgba(163, 112, 255, 0.4);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+.login-card .stButton > button::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.4s, height 0.4s;
+}
+.login-card .stButton > button:hover {
+    transform: scale(1.02);
+    box-shadow: 0 12px 30px rgba(163, 112, 255, 0.6);
+}
+.login-card .stButton > button:active::after {
+    width: 300px;
+    height: 300px;
+}
+.login-card .demo-hint {
+    margin-top: 2rem;
+    color: #a0a0c0;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: rgba(255, 217, 102, 0.05);
+    padding: 0.8rem;
+    border-radius: 40px;
+    border: 1px solid rgba(255, 217, 102, 0.2);
+}
+.login-card .demo-hint i {
+    color: #ffd966;
+}
+
+/* ===== ANIMATED DASHBOARD TITLE ===== */
 .eclipse-title {
     text-align: center;
     padding: 2rem 0 0.5rem;
+    animation: fadeInDown 0.8s ease-out;
 }
 .main-title {
-    font-size: 5.5rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, #ffaa00, #ffdd44, #44aaff);
+    font-family: 'Clash Display', sans-serif;
+    font-size: 3.8rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #ffffff, #d9b3ff, #a370ff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 40px rgba(255,170,0,0.4));
-    animation: eclipseGlow 4s infinite alternate;
-    letter-spacing: 4px;
+    filter: drop-shadow(0 0 20px rgba(163, 112, 255, 0.5));
+    animation: titleGlow 4s infinite alternate;
+    letter-spacing: 2px;
 }
-@keyframes eclipseGlow {
-    0% { filter: drop-shadow(0 0 20px #ffaa00); }
-    100% { filter: drop-shadow(0 0 60px #44aaff); }
+@keyframes titleGlow {
+    0% { filter: drop-shadow(0 0 15px #a370ff); }
+    100% { filter: drop-shadow(0 0 35px #ffd966); }
 }
 .byline {
-    color: #aaaac0;
-    font-size: 1.3rem;
-    letter-spacing: 6px;
-    border-bottom: 1px solid rgba(255,170,0,0.2);
-    padding-bottom: 1.5rem;
-    margin: 0 20%;
+    color: #b0b0d0;
+    font-size: 1rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(163, 112, 255, 0.3);
+    display: inline-block;
+    padding-bottom: 0.5rem;
 }
 .byline span {
-    background: linear-gradient(135deg, #ffcc44, #44aaff);
+    background: linear-gradient(135deg, #ffd966, #a370ff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    font-weight: 700;
+    font-weight: 600;
 }
 
-/* ----- SIDEBAR ----- */
+/* ===== SIDEBAR ===== */
 .css-1d391kg, .css-12oz5g7 {
-    background: rgba(10,12,24,0.95) !important;
+    background: rgba(12, 12, 22, 0.95) !important;
     backdrop-filter: blur(20px);
-    border-right: 1px solid rgba(255,170,0,0.15);
+    border-right: 1px solid rgba(163, 112, 255, 0.2);
 }
 .sidebar-title {
     font-size: 2rem;
-    font-weight: 700;
+    font-weight: 600;
     text-align: center;
-    background: linear-gradient(135deg, #ffaa00, #44aaff);
+    background: linear-gradient(135deg, #ffd966, #a370ff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     margin: 1.5rem 0 2rem;
 }
 
-/* ----- METRIC CARDS ----- */
-.metric-card {
-    background: rgba(20,24,40,0.65);
+/* ===== PROFESSIONAL BUTTONS ===== */
+.stButton > button {
+    background: rgba(30, 30, 40, 0.8);
+    backdrop-filter: blur(10px);
+    color: white;
+    border: 1px solid rgba(163, 112, 255, 0.3);
+    border-radius: 14px;
+    padding: 0.6rem 1.5rem;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.3s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+.stButton > button::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translate(-50%, -50%);
+    transition: width 0.4s, height 0.4s;
+}
+.stButton > button:hover {
+    border-color: #a370ff;
+    box-shadow: 0 8px 20px rgba(163, 112, 255, 0.4);
+    transform: translateY(-2px);
+}
+.stButton > button:active::after {
+    width: 300px;
+    height: 300px;
+}
+
+/* ===== TOAST ANIMATION ===== */
+div[data-testid="stToast"] {
+    animation: slideInToast 0.3s ease-out;
+}
+@keyframes slideInToast {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* ===== SYSTEM STATUS CARD ===== */
+.status-card {
+    background: rgba(22, 22, 32, 0.8);
     backdrop-filter: blur(12px);
-    border-radius: 30px;
-    padding: 2rem 1rem;
-    border: 1px solid rgba(255,170,0,0.2);
-    box-shadow: 0 20px 40px -10px rgba(0,0,0,0.7);
-    transition: all 0.3s ease;
+    border-radius: 24px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    border: 1px solid rgba(163, 112, 255, 0.2);
+    box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.5);
+}
+.status-item {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.status-item:last-child {
+    border-bottom: none;
+}
+.status-icon {
+    width: 36px;
+    font-size: 1.3rem;
+    color: #a370ff;
+}
+.status-label {
+    flex: 1;
+    font-size: 0.95rem;
+    color: #c0c0e0;
+}
+.status-value {
+    font-weight: 600;
+    color: #ffd966;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+}
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    animation: pulseDot 1.5s infinite;
+}
+.status-dot.online {
+    background: #33cc99;
+    box-shadow: 0 0 15px #33cc99;
+}
+.status-dot.offline {
+    background: #ff4d4d;
+    box-shadow: 0 0 15px #ff4d4d;
+}
+@keyframes pulseDot {
+    0% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+/* ===== METRIC CARDS ===== */
+.metric-card {
+    background: rgba(22, 22, 32, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(163, 112, 255, 0.2);
+    border-radius: 24px;
+    padding: 1.8rem 1rem;
+    transition: all 0.4s ease;
     text-align: center;
+    animation: fadeInUp 0.6s ease-out;
+    box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.5);
 }
 .metric-card:hover {
+    border-color: #a370ff;
+    box-shadow: 0 20px 40px -10px #a370ff80;
     transform: translateY(-5px);
-    border-color: #ffaa33;
-    box-shadow: 0 25px 50px -10px rgba(255,170,0,0.3);
 }
 .metric-label {
-    color: #c0c0e0;
-    font-size: 1rem;
+    color: #b0b0d0;
+    font-size: 0.95rem;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     margin-bottom: 0.5rem;
 }
 .metric-value {
-    font-size: 3.5rem;
-    font-weight: 700;
+    font-size: 3rem;
+    font-weight: 600;
     color: white;
-    line-height: 1.2;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
 }
 .metric-delta {
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: #a0a0c0;
     margin-top: 0.3rem;
 }
 
-/* ----- SECTION HEADERS ----- */
+/* ===== SECTION HEADERS ===== */
 .section-header {
-    font-size: 2.2rem;
+    font-size: 2rem;
     font-weight: 600;
     color: white;
-    margin: 3rem 0 2rem;
-    padding-left: 1.5rem;
-    border-left: 6px solid #ffaa00;
-    background: linear-gradient(90deg, rgba(255,170,0,0.1), transparent);
+    margin: 2.5rem 0 1.5rem;
+    border-left: 6px solid #a370ff;
+    padding-left: 1.2rem;
+    text-shadow: 0 0 15px rgba(163, 112, 255, 0.3);
 }
 
-/* ----- BADGES ----- */
+/* ===== BADGES ===== */
 .badge {
     display: inline-block;
     padding: 0.4rem 1.2rem;
-    border-radius: 40px;
+    border-radius: 30px;
     font-weight: 600;
     font-size: 0.8rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
 }
 .badge-critical {
-    background: linear-gradient(145deg, #ff416c, #ff4b2b);
+    background: #ff4d4d;
     color: white;
-    box-shadow: 0 0 15px #ff416c;
-    animation: pulse 1.5s infinite;
+    box-shadow: 0 0 15px #ff4d4d80;
 }
 .badge-warning {
-    background: linear-gradient(145deg, #f7971e, #ffd200);
+    background: #ffaa33;
     color: black;
-    box-shadow: 0 0 15px #f7971e;
+    box-shadow: 0 0 15px #ffaa3380;
 }
 .badge-safe {
-    background: linear-gradient(145deg, #56ab2f, #a8e063);
+    background: #33cc99;
     color: white;
-    box-shadow: 0 0 15px #56ab2f;
-}
-@keyframes pulse {
-    0% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.9; transform: scale(1.05); }
-    100% { opacity: 1; transform: scale(1); }
+    box-shadow: 0 0 15px #33cc9980;
 }
 
-/* ----- EXPLANATION CARD ----- */
+/* ===== EXPLANATION CARD ===== */
 .explain-card {
-    background: rgba(0,0,0,0.7);
-    backdrop-filter: blur(15px);
-    border-radius: 30px;
+    background: rgba(18, 18, 28, 0.9);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(163, 112, 255, 0.3);
+    border-radius: 24px;
     padding: 2.5rem;
-    border: 1px solid rgba(255,170,0,0.3);
     margin: 2rem 0;
     color: #f0f0f0;
-    font-size: 1.1rem;
-    line-height: 1.8;
+    font-family: 'JetBrains Mono', monospace;
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
 }
 .explain-card strong {
-    color: #ffcc44;
-    font-size: 1.3rem;
+    color: #ffd966;
 }
 
-/* ----- ALERT PANEL ----- */
+/* ===== ALERT PANEL ===== */
 .alert-panel {
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(163, 112, 255, 0.2);
     border-radius: 20px;
-    padding: 1rem;
-    max-height: 300px;
+    padding: 1.2rem;
+    max-height: 350px;
     overflow-y: auto;
-    border: 1px solid rgba(255,170,0,0.2);
 }
 .alert-item {
-    padding: 0.5rem;
-    margin: 0.3rem 0;
-    border-left: 4px solid #ffaa00;
-    background: rgba(255,170,0,0.05);
-    border-radius: 5px;
+    padding: 0.7rem;
+    margin: 0.4rem 0;
+    border-left: 4px solid #a370ff;
+    background: rgba(22, 22, 32, 0.6);
+    border-radius: 8px;
+    font-family: monospace;
     font-size: 0.9rem;
-    color: #ddd;
+    animation: slideIn 0.3s ease-out;
+    transition: transform 0.2s;
+}
+.alert-item:hover {
+    transform: translateX(5px);
+    background: rgba(163, 112, 255, 0.1);
 }
 
-/* ----- FOOTER ----- */
+/* ===== FOOTER ===== */
 .footer {
     text-align: center;
-    color: #8888aa;
-    padding: 3rem 1rem 1rem;
-    border-top: 1px solid rgba(255,170,0,0.2);
+    color: #6a6a90;
+    padding: 3rem 1rem 1.5rem;
+    border-top: 1px solid rgba(163, 112, 255, 0.2);
     margin-top: 4rem;
-    font-size: 1rem;
+    font-size: 0.95rem;
 }
 .footer span {
-    color: #ffaa33;
-    font-weight: 600;
+    color: #ffd966;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(-10px); }
+    to { opacity: 1; transform: translateX(0); }
 }
 </style>
 """, unsafe_allow_html=True)
 
 # -----------------------------------------------------------------------------
 # 3. SESSION STATE INITIALIZATION
+# -----------------------------------------------------------------------------
+if 'logged_in' not in st.session_state:
+    st.session_state.logged_in = False
+
+if not st.session_state.logged_in:
+    st.markdown("""
+    <div class='login-wrapper'>
+        <div class='login-card'>
+            <div class='login-title'>
+                <div class='main-title'>🌒 AETHERA</div>
+                <div class='byline'>by <span>UNIFIED PARADOX</span></div>
+            </div>
+            <h2>🔐 Secure Access</h2>
+            <div class='subtitle'>Enter your <span>credentials</span></div>
+    """, unsafe_allow_html=True)
+
+    username = st.text_input("Username", placeholder="admin", label_visibility="collapsed")
+    password = st.text_input("Password", type="password", placeholder="••••••••", label_visibility="collapsed")
+
+    if st.button("Login", use_container_width=True):
+        if username == "admin" and password == "aethera2026":
+            st.session_state.logged_in = True
+            st.rerun()
+        else:
+            st.error("Invalid credentials. Use admin / aethera2026")
+
+    st.markdown("<div class='demo-hint'><i class='fas fa-info-circle'></i> Demo credentials: admin / aethera2026</div>", unsafe_allow_html=True)
+    st.markdown("</div></div>", unsafe_allow_html=True)
+    st.stop()
+
+# -----------------------------------------------------------------------------
+# 4. DASHBOARD SESSION STATE
 # -----------------------------------------------------------------------------
 defaults = {
     'trust_history': {},
@@ -258,20 +564,21 @@ defaults = {
     'attack_active': False,
     'test_rollback': False,
     'alerts': [],
-    'manual_override': {}
+    'manual_override': {},
+    'rolled_back_devices': set(),
+    'last_update': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 }
 for key, value in defaults.items():
     if key not in st.session_state:
         st.session_state[key] = value
 
 # -----------------------------------------------------------------------------
-# 4. TELEMETRY GENERATOR (REAL‑WORLD IOT DEVICES)
+# 5. TELEMETRY GENERATOR (with rollback override)
 # -----------------------------------------------------------------------------
 def generate_iot_data(num_devices=10, attack=False):
-    """Generate realistic IoT telemetry from common devices."""
     end = datetime.now()
     start = end - timedelta(hours=24)
-    timestamps = pd.date_range(start, end, periods=288)  # 5‑min intervals
+    timestamps = pd.date_range(start, end, periods=288)
 
     device_types = ['RingDoorbell', 'NestThermostat', 'AmazonEcho', 'PhilipsHue', 'SamsungTV', 'ArloCamera']
     base_traffic = {
@@ -317,10 +624,15 @@ def generate_iot_data(num_devices=10, attack=False):
                 'failed_logins': fails,
                 'compromised': is_bad and ts > timestamps[-48]
             })
-    return pd.DataFrame(rows)
+    df = pd.DataFrame(rows)
+    # Override compromised flag for any device that has been rolled back
+    rolled_back = list(st.session_state.rolled_back_devices)
+    if rolled_back:
+        df.loc[df['device_id'].isin(rolled_back), 'compromised'] = False
+    return df
 
 # -----------------------------------------------------------------------------
-# 5. AI/ML: BASELINE TRAINING (ISOLATION FOREST)
+# 6. AI/ML – ISOLATION FOREST
 # -----------------------------------------------------------------------------
 def train_baseline(device_id, df):
     baseline = df.head(144)
@@ -338,7 +650,7 @@ def train_baseline(device_id, df):
     return True
 
 # -----------------------------------------------------------------------------
-# 6. POLICY DRIFT DETECTION (ML + KS‑TEST)
+# 7. DRIFT DETECTION
 # -----------------------------------------------------------------------------
 def detect_drift(device_id, df):
     if device_id not in st.session_state.models:
@@ -373,7 +685,7 @@ def detect_drift(device_id, df):
     }
 
 # -----------------------------------------------------------------------------
-# 7. DYNAMIC TRUST SCORE (0–100)
+# 8. TRUST SCORE
 # -----------------------------------------------------------------------------
 def compute_trust(device_id, drift_res):
     trust = 100.0
@@ -395,7 +707,7 @@ def compute_trust(device_id, drift_res):
     return round(trust, 1)
 
 # -----------------------------------------------------------------------------
-# 8. EVIDENCE‑FIRST EXPLAINABILITY
+# 9. EXPLAINABILITY
 # -----------------------------------------------------------------------------
 def explain_device(device_id, df, trust, drift_res):
     baseline = df.head(144)
@@ -463,7 +775,7 @@ def explain_device(device_id, df, trust, drift_res):
     return "\n".join(lines)
 
 # -----------------------------------------------------------------------------
-# 9. ROLLBACK SYSTEM (SNAPSHOTS + GATED LEARNING)
+# 10. ROLLBACK & GATED LEARNING (with rolled_back_devices)
 # -----------------------------------------------------------------------------
 def save_snapshot(device_id, row, trust):
     os.makedirs('backups', exist_ok=True)
@@ -506,6 +818,8 @@ def rollback_device(device_id, reason="Security threat"):
         'snapshot_time': snap['time'],
         'reason': reason
     })
+    # Mark this device as rolled back so it appears normal in next data generation
+    st.session_state.rolled_back_devices.add(device_id)
     return True, f"✅ Rolled back {device_id} to state from {snap['time']}"
 
 def can_learn_from(device_id, trust, anomaly_rate):
@@ -547,17 +861,24 @@ def can_learn_from(device_id, trust, anomaly_rate):
     return decision
 
 # -----------------------------------------------------------------------------
-# 10. SIDEBAR CONTROLS
+# 11. SIDEBAR CONTROLS
 # -----------------------------------------------------------------------------
 with st.sidebar:
     st.markdown("<div class='sidebar-title'>⚡ AETHERA</div>", unsafe_allow_html=True)
     st.markdown("---")
-    num_devices = st.slider("Number of IoT devices", 5, 20, 10)
+
+    if st.button("🚪 Logout", use_container_width=True):
+        st.session_state.logged_in = False
+        st.rerun()
+
+    st.markdown("---")
+    num_devices = st.slider("Number of IoT devices", 5, 20, 10, help="Simulate up to 20 devices.")
     st.markdown("### ⚔️ Attack Simulator")
     col1, col2 = st.columns(2)
     with col1:
         if st.button("🚨 LAUNCH", use_container_width=True):
             st.session_state.attack_active = True
+            st.session_state.rolled_back_devices.clear()
             st.toast("⚠️ Attack simulation activated", icon="⚠️")
     with col2:
         if st.button("🛑 STOP", use_container_width=True):
@@ -568,27 +889,53 @@ with st.sidebar:
     if st.button("🧪 TEST ROLLBACK", use_container_width=True):
         st.session_state.test_rollback = True
     st.markdown("---")
+
     st.markdown("### 📊 System Status")
     st.markdown("""
-    - 🟢 **ML Engine:** Isolation Forest
-    - 🟢 **Gated Learning:** Active
-    - 🟢 **Rollback:** Ready
-    - 🟢 **Manual Override:** Enabled
-    - 🟢 **Unified Paradox:** Online
-    """)
+    <div class='status-card'>
+        <div class='status-item'>
+            <span class='status-icon'>🧠</span>
+            <span class='status-label'>ML Engine</span>
+            <span class='status-value'>Isolation Forest <span class='status-dot online'></span></span>
+        </div>
+        <div class='status-item'>
+            <span class='status-icon'>🛡️</span>
+            <span class='status-label'>Gated Learning</span>
+            <span class='status-value'>Active <span class='status-dot online'></span></span>
+        </div>
+        <div class='status-item'>
+            <span class='status-icon'>🔄</span>
+            <span class='status-label'>Rollback</span>
+            <span class='status-value'>Ready <span class='status-dot online'></span></span>
+        </div>
+        <div class='status-item'>
+            <span class='status-icon'>⚙️</span>
+            <span class='status-label'>Manual Override</span>
+            <span class='status-value'>Enabled <span class='status-dot online'></span></span>
+        </div>
+        <div class='status-item'>
+            <span class='status-icon'>👥</span>
+            <span class='status-label'>Unified Paradox</span>
+            <span class='status-value'>Online <span class='status-dot online'></span></span>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
     st.markdown("---")
     if st.button("🗑️ Clear Logs", use_container_width=True):
         st.session_state.alerts = []
         st.session_state.learning_log = []
         st.session_state.rollback_log = []
+        st.session_state.rolled_back_devices.clear()
         st.toast("Logs cleared", icon="✅")
 
 # -----------------------------------------------------------------------------
-# 11. MAIN DASHBOARD
+# 12. MAIN DASHBOARD – ANIMATED TITLE
 # -----------------------------------------------------------------------------
 st.markdown("<div class='eclipse-title'><div class='main-title'>🌒 AETHERA</div><div class='byline'>by <span>UNIFIED PARADOX</span> · IoT Trust & Drift Analytics</div></div>", unsafe_allow_html=True)
 
 df = generate_iot_data(num_devices, st.session_state.attack_active)
+st.session_state.last_update = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 # Handle rollback test
 if st.session_state.test_rollback:
@@ -606,7 +953,7 @@ if st.session_state.test_rollback:
 # Top metrics
 total = df['device_id'].nunique()
 compromised = df[df['compromised']]['device_id'].nunique() if df['compromised'].any() else 0
-avg_trust = 95 - compromised * 10  # heuristic for demo
+avg_trust = 95 - compromised * 10
 
 cols = st.columns(4)
 metrics = [
@@ -619,17 +966,35 @@ for i, (label, value, delta, help_text) in enumerate(metrics):
     with cols[i]:
         st.markdown(f"<div class='metric-card' title='{help_text}'><div class='metric-label'>{label}</div><div class='metric-value'>{value}</div><div class='metric-delta'>{delta}</div></div>", unsafe_allow_html=True)
 
+st.markdown(f"<div class='last-updated'>Last updated: {st.session_state.last_update}</div>", unsafe_allow_html=True)
 st.markdown("---")
 
 # -----------------------------------------------------------------------------
-# 12. NETWORK TELEMETRY CHARTS
+# 13. HOW IT WORKS (Judge‑Friendly)
+# -----------------------------------------------------------------------------
+with st.expander("🧠 How Aethera Works (AI/ML, Policy, Trust Score)"):
+    st.markdown("""
+    <div style='background: rgba(0,0,0,0.3); border-left: 5px solid #a370ff; padding: 1rem; border-radius: 8px;'>
+        <strong>🟦 AI/ML – Isolation Forest</strong><br>
+        Trained on first 12h of each device's telemetry (traffic, connections, failed logins).<br><br>
+        <strong>🟨 Policy – Drift Detection</strong><br>
+        Drift if anomaly rate >20% OR p‑value <0.05 (KS‑test). Severity: CRITICAL (anomaly>40% or p<0.01), HIGH (anomaly>20% or p<0.05), MEDIUM otherwise.<br><br>
+        <strong>🟩 Trust Score (0–100)</strong><br>
+        Trust = 100 – (drift_penalty + anomaly_penalty) smoothed with history. Drift penalty: CRITICAL=50, HIGH=30, MEDIUM=15. Anomaly penalty: anomaly_rate×40. History smoothing: 70% current, 30% recent average.<br><br>
+        <strong>🛡️ Gated Learning</strong><br>
+        Only devices with trust ≥75 and anomaly <20% update baselines. Manual override available.
+    </div>
+    """, unsafe_allow_html=True)
+
+# -----------------------------------------------------------------------------
+# 14. NETWORK TELEMETRY CHARTS
 # -----------------------------------------------------------------------------
 st.markdown("<div class='section-header'>📡 NETWORK TELEMETRY</div>", unsafe_allow_html=True)
 chart_cols = st.columns([3, 2])
 with chart_cols[0]:
     fig = px.line(df, x='timestamp', y='traffic', color='device_id', title="Traffic Over Time", template='plotly_dark')
     fig.update_layout(showlegend=False, plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
-                      font_color='white', title_font_color='#ffaa33')
+                      font_color='white', title_font_color='#ffd966')
     fig.update_xaxes(gridcolor='rgba(255,255,255,0.1)')
     fig.update_yaxes(gridcolor='rgba(255,255,255,0.1)')
     st.plotly_chart(fig, use_container_width=True)
@@ -638,15 +1003,15 @@ with chart_cols[1]:
         mode="gauge+number",
         value=avg_trust,
         domain={'x': [0,1], 'y': [0,1]},
-        title={'text': "Overall Network Trust", 'font':{'color':'white','size':20}},
+        title={'text': "Overall Network Trust", 'font':{'color':'white','size':16}},
         gauge={
             'axis': {'range':[0,100], 'tickcolor':'white'},
-            'bar': {'color': "#ffaa00", 'thickness':0.3},
+            'bar': {'color': "#a370ff", 'thickness':0.3},
             'bgcolor': 'rgba(0,0,0,0)',
             'steps': [
-                {'range':[0,40], 'color':'rgba(255,65,108,0.3)'},
-                {'range':[40,70], 'color':'rgba(247,151,30,0.3)'},
-                {'range':[70,100], 'color':'rgba(86,171,47,0.3)'}
+                {'range':[0,40], 'color':'rgba(255,65,108,0.2)'},
+                {'range':[40,70], 'color':'rgba(247,151,30,0.2)'},
+                {'range':[70,100], 'color':'rgba(86,171,47,0.2)'}
             ],
             'threshold': {'line':{'color':'white','width':4}, 'thickness':0.75, 'value':avg_trust}
         }))
@@ -656,7 +1021,7 @@ with chart_cols[1]:
 st.markdown("---")
 
 # -----------------------------------------------------------------------------
-# 13. DEVICE TRUST TABLE WITH MANUAL OVERRIDE
+# 15. DEVICE TRUST TABLE WITH MANUAL OVERRIDE
 # -----------------------------------------------------------------------------
 st.markdown("<div class='section-header'>📱 DEVICE TRUST & MANUAL OVERRIDE</div>", unsafe_allow_html=True)
 
@@ -670,7 +1035,7 @@ for device_id in df['device_id'].unique():
     sys_learn = (trust >= 75 and drift['anomaly_rate'] < 0.2)
     if device_id not in st.session_state.manual_override:
         st.session_state.manual_override[device_id] = None
-    if trust > 80 and not drift['drift']:
+    if trust > 80 and not drift['drift'] and device_id not in st.session_state.rolled_back_devices:
         save_snapshot(device_id, dev_df.iloc[-1], trust)
     badge_class = "badge-critical" if trust < 40 else "badge-warning" if trust < 70 else "badge-safe"
     badge_text = "CRITICAL" if trust < 40 else "WARNING" if trust < 70 else "TRUSTED"
@@ -696,7 +1061,7 @@ for row in device_rows:
     cols = st.columns([2, 1.2, 1, 1.5, 0.8, 1, 1, 1.5])
     cols[0].write(dev_id)
     cols[1].write(row['Type'])
-    trust_color = '#ff416c' if row['Trust'] < 40 else '#f7971e' if row['Trust'] < 70 else '#56ab2f'
+    trust_color = '#ff4d4d' if row['Trust'] < 40 else '#ffaa33' if row['Trust'] < 70 else '#33cc99'
     cols[2].markdown(f"<span style='color:{trust_color}; font-weight:600;'>{row['Trust']}</span>", unsafe_allow_html=True)
     cols[3].markdown(row['Status'], unsafe_allow_html=True)
     cols[4].write(row['Drift'])
@@ -716,7 +1081,7 @@ for row in device_rows:
 st.markdown("---")
 
 # -----------------------------------------------------------------------------
-# 14. EXPLAINABILITY ENGINE
+# 16. EXPLAINABILITY ENGINE
 # -----------------------------------------------------------------------------
 st.markdown("<div class='section-header'>💡 EXPLAINABILITY ENGINE</div>", unsafe_allow_html=True)
 if device_rows:
@@ -739,7 +1104,7 @@ if device_rows:
             pct = ((avg_recent - avg_base) / (avg_base + 1e-10)) * 100
             impact_df = pd.DataFrame({'Feature':['📡 Traffic','🌐 Connections','🔑 Failed Logins'], 'Deviation %': np.clip(np.abs(pct),0,100)})
             fig = px.bar(impact_df, x='Deviation %', y='Feature', orientation='h', color='Deviation %',
-                         color_continuous_scale=['#56ab2f','#f7971e','#ff416c'], title="Feature Deviation from Baseline")
+                         color_continuous_scale=['#33cc99','#ffaa33','#ff4d4d'], title="Feature Deviation from Baseline")
             fig.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', font_color='white')
             st.plotly_chart(fig, use_container_width=True)
 
@@ -755,7 +1120,7 @@ if device_rows:
 st.markdown("---")
 
 # -----------------------------------------------------------------------------
-# 15. ALERTS, AUDIT, ROLLBACK TABS
+# 17. ALERTS, AUDIT, ROLLBACK TABS
 # -----------------------------------------------------------------------------
 tab1, tab2, tab3 = st.tabs(["🚨 Alerts", "📋 Learning Audit", "🔄 Rollback History"])
 with tab1:
@@ -779,7 +1144,7 @@ with tab3:
         st.info("No rollbacks performed yet.")
 
 # -----------------------------------------------------------------------------
-# 16. EVALUATION PLAN (SIMULATED RESULTS)
+# 18. EVALUATION PLAN
 # -----------------------------------------------------------------------------
 st.markdown("---")
 st.markdown("### 📊 Evaluation Plan (Simulated Results)")
@@ -790,7 +1155,7 @@ st.info("""
 """)
 
 # -----------------------------------------------------------------------------
-# 17. FOOTER
+# 19. FOOTER
 # -----------------------------------------------------------------------------
 st.markdown("""
 <div class='footer'>
